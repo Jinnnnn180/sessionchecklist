@@ -744,7 +744,7 @@
         범용 프레임워크가 아닌, <strong>우리 제품의 핵심 이벤트 · 사용 주기 · 유저 구조에 딱 맞는</strong><br>
         UA/리텐션 전략을 함께 설계해드립니다.
       </div>
-      <button class="cta-btn" onclick="openMeeting()">
+      <button class="cta-btn" id="ctaBtn" onclick="submitAndBook()">
         📅 맞춤형 전략 미팅 신청하기
       </button>
       <div class="cta-hint" id="ctaHint">
@@ -794,8 +794,65 @@
     document.getElementById('ctaDone').textContent = checked;
   }
 
-  function openMeeting() {
-    window.open('https://calendar.app.google/8eDQLS3eDkCdUPrq6', '_blank');
+  async function submitAndBook() {
+    const btn = document.getElementById('ctaBtn');
+    btn.textContent = '⏳ 전송 중...';
+    btn.disabled = true;
+
+    // ── 체크된 항목 수집 ──
+    const checkedItems = [...document.querySelectorAll('.item.checked .item-text')]
+      .map(el => el.textContent.trim())
+      .join('\n');
+
+    // ── 텍스트 입력값 수집 ──
+    const inputs = {};
+    document.querySelectorAll('.q-field').forEach(field => {
+      const label = field.querySelector('.q-label');
+      if (!label) return;
+      const labelText = label.childNodes[0].textContent.trim();
+
+      const textEl = field.querySelector('input.q-input, textarea.q-input');
+      if (textEl && textEl.value.trim()) {
+        inputs[labelText] = textEl.value.trim();
+      }
+
+      const selected = field.querySelector('.q-option.selected');
+      if (selected) {
+        // 기타 선택 시 텍스트 입력값 우선
+        const otherInput = field.querySelector('.other-input input');
+        inputs[labelText] = (selected.dataset.other === 'true' && otherInput?.value.trim())
+          ? '기타: ' + otherInput.value.trim()
+          : selected.textContent.trim();
+      }
+    });
+
+    const payload = {
+      '체크된 항목': checkedItems || '(없음)',
+      ...inputs,
+      '제출 시각': new Date().toLocaleString('ko-KR')
+    };
+
+    try {
+      const res = await fetch('https://formspree.io/f/xpqydnke', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        btn.textContent = '✅ 전송 완료! 캘린더로 이동합니다';
+        setTimeout(() => {
+          window.open('https://calendar.app.google/8eDQLS3eDkCdUPrq6', '_blank');
+          btn.textContent = '📅 맞춤형 전략 미팅 신청하기';
+          btn.disabled = false;
+        }, 1200);
+      } else {
+        throw new Error();
+      }
+    } catch {
+      btn.textContent = '⚠️ 전송 실패 — 다시 시도해주세요';
+      btn.disabled = false;
+    }
   }
 </script>
 </body>
