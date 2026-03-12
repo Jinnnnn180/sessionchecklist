@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>성장 지표 자가진단 — AB180 for Startups</title>
+  <style>
+    :root {
+      --bg: #F4F5F7;
+      --white: #FFFFFF;
+      --primary: #1A1A2E;
+      --accent: #4F46E5;
+      --accent-light: #EEF2FF;
+      --accent-border: #C7D2FE;
+      --gray-100: #F9FAFB;
+      --gray-200: #E5E7EB;
+      --gray-400: #9CA3AF;
+      --gray-500: #6B7280;
+      --gray-700: #374151;
+      --gray-800: #1F2937;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--gray-800);
+      min-height: 100vh;
+      padding: 32px 16px 60px;
+      line-height: 1.6;
+    }
+
+    .page { max-width: 700px; margin: 0 auto; }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--primary);
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 36px 40px 32px;
+      color: #fff;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, #818CF8, #C084FC);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      max-width: 520px;
+    }
+
+    .hero-steps {
+      display: flex;
+      gap: 0;
+      margin-top: 24px;
+    }
+
+    .hero-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .hero-step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .hero-step-arrow {
+      margin: 0 12px;
+      color: rgba(255,255,255,0.25);
+      font-size: 14px;
+    }
+
+    /* ── Progress ── */
+    .progress-bar {
+      background: var(--white);
+      border-left: 1px solid var(--gray-200);
+      border-right: 1px solid var(--gray-200);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: var(--gray-500);
+      white-space: nowrap;
+      min-width: 80px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: var(--gray-200);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #7C3AED);
+      border-radius: 99px;
+      transition: width 0.35s ease;
+    }
+
+    .progress-count {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      white-space: nowrap;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* ── Body ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-top: none;
+    }
+
+    /* ── Section ── */
+    .section {
+      padding: 28px 40px 20px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .section:last-child { border-bottom: none; }
+
+    .section-hd {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .ic-0 { background: #F8FAFC; }
+    .ic-1 { background: #ECFDF5; }
+    .ic-2 { background: #FFFBEB; }
+    .ic-3 { background: #F0FDFA; }
+    .ic-4 { background: #FDF4FF; }
+    .ic-5 { background: #EFF6FF; }
+
+    .section-meta { flex: 1; }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--gray-400);
+      margin-top: 2px;
+    }
+
+    /* ── Checklist Item ── */
+    .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      padding: 10px 12px;
+      margin: 0 -12px 2px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.12s;
+      user-select: none;
+    }
+
+    .item:hover { background: var(--gray-100); }
+    .item.checked { background: var(--accent-light); }
+
+    .cb {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--gray-400);
+      border-radius: 5px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .item.checked .cb {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .cb-mark {
+      display: none;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .item.checked .cb-mark { display: block; }
+
+    .item-body { flex: 1; }
+
+    .item-text {
+      font-size: 13.5px;
+      color: var(--gray-800);
+      line-height: 1.55;
+    }
+
+    .item.checked .item-text {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .item-hint {
+      font-size: 11.5px;
+      color: var(--gray-400);
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    /* ── Q Field ── */
+    .q-field { margin: 12px 0 4px; }
+
+    .q-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .q-badge {
+      font-size: 10px;
+      background: var(--gray-200);
+      color: var(--gray-500);
+      padding: 1px 7px;
+      border-radius: 99px;
+    }
+
+    .q-input {
+      width: 100%;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--gray-800);
+      background: var(--gray-100);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+      resize: none;
+    }
+
+    .q-input:focus {
+      border-color: var(--accent);
+      background: var(--white);
+    }
+
+    .q-input::placeholder { color: var(--gray-400); }
+
+    .q-select {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .q-option {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 7px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all 0.12s;
+      background: var(--gray-100);
+      user-select: none;
+    }
+
+    .q-option:hover { border-color: var(--accent); background: var(--accent-light); }
+    .q-option.selected { border-color: var(--accent); background: var(--accent-light); color: var(--accent); font-weight: 600; }
+
+    /* 기타 텍스트 입력 (숨김/표시) */
+    .other-input {
+      margin-top: 8px;
+      display: none;
+    }
+
+    .other-input.visible { display: block; }
+
+    /* ── Info Row (기본정보 2컬럼) ── */
+    .info-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    @media (max-width: 500px) {
+      .info-row { grid-template-columns: 1fr; }
+    }
+
+    /* ── CTA Card ── */
+    .cta-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      padding: 32px 40px 36px;
+    }
+
+    .cta-inner {
+      background: linear-gradient(135deg, #1A1A2E 0%, #2D1B69 100%);
+      border-radius: 12px;
+      padding: 28px 32px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 10px;
+    }
+
+    .cta-title {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .cta-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--primary);
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .cta-btn:hover { opacity: 0.9; }
+
+    .cta-hint {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 12px;
+    }
+
+    .cta-hint span {
+      color: rgba(255,255,255,0.6);
+      font-weight: 600;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11.5px;
+      color: var(--gray-400);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .hero, .section, .cta-card { padding-left: 20px; padding-right: 20px; }
+      .progress-bar { padding-left: 20px; padding-right: 20px; }
+      .cta-inner { padding: 22px 20px; }
+      .hero h1 { font-size: 18px; }
+      .cta-title { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">AB180 for Startups · 2026.03.13</div>
+    <h1>세션에서 배운 프레임워크,<br><em>우리 서비스에는 어떻게 적용할까요?</em></h1>
+    <p class="hero-desc">
+      오늘 세션은 범용적인 프레임워크를 다뤘습니다.<br>
+      아래 질문들에 답하면서 우리 서비스의 현재 상태를 짚어보세요.<br>
+      답변을 가지고 미팅을 신청하면, <strong>AB180 전문 조직이 우리 서비스에 맞게 최적화된 전략을 설계해드립니다.</strong>
+    </p>
+    <div class="hero-steps">
+      <div class="hero-step">
+        <div class="hero-step-num">1</div>
+        <span>체크리스트 답변</span>
+      </div>
+      <div class="hero-step-arrow">→</div>
+      <div class="hero-step">
+        <div class="hero-step-num">2</div>
+        <span>미팅 신청</span>
+      </div>
+      <div class="hero-step-arrow">→</div>
+      <div class="hero-step">
+        <div class="hero-step-num">3</div>
+        <span>맞춤형 전략 설계</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-bar">
+    <span class="progress-label">완료된 항목</span>
+    <div class="progress-track">
+      <div class="progress-fill" id="pFill"></div>
+    </div>
+    <span class="progress-count" id="pCount">0 / 16</span>
+  </div>
+
+  <!-- Body -->
+  <div class="card">
+
+    <!-- S0: 기본 정보 -->
+    <div class="section">
+      <div class="section-hd">
+        <div class="section-icon ic-0">📋</div>
+        <div class="section-meta">
+          <div class="section-title">기본 정보</div>
+          <div class="section-subtitle">서비스 현황을 간단히 알려주세요 — 미팅에서 더 정확한 진단을 드릴 수 있습니다</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">현재 서비스가 어떤 형태인가요? <span class="q-badge">선택</span></div>
+        <div class="q-select">
+          <div class="q-option" onclick="selectOpt(this, 'platform')">앱</div>
+          <div class="q-option" onclick="selectOpt(this, 'platform')">웹+앱</div>
+          <div class="q-option" onclick="selectOpt(this, 'platform')">웹</div>
+          <div class="q-option" onclick="selectOpt(this, 'platform')" data-other="true">기타</div>
+        </div>
+        <div class="other-input" id="platformOther">
+          <input class="q-input" type="text" placeholder="서비스 형태를 직접 입력해주세요" oninput="updateQ(this)" />
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="q-field" style="margin:0;">
+          <div class="q-label">MAU <span class="q-badge">직접 입력</span></div>
+          <input class="q-input" type="text" placeholder="예: 약 5만 / 1만 미만 / 모름…" oninput="updateQ(this)" />
+        </div>
+        <div class="q-field" style="margin:0;">
+          <div class="q-label">산업군 <span class="q-badge">직접 입력</span></div>
+          <input class="q-input" type="text" placeholder="예: 커머스 / 핀테크 / 헬스케어…" oninput="updateQ(this)" />
+        </div>
+      </div>
+    </div>
+
+    <!-- S1: 유입 & 어트리뷰션 -->
+    <div class="section">
+      <div class="section-hd">
+        <div class="section-icon ic-1">📡</div>
+        <div class="section-meta">
+          <div class="section-title">유입 & 어트리뷰션 — 마케팅 비용이 리텐션으로 이어지고 있나요?</div>
+          <div class="section-subtitle">광고를 태워 들어온 유저가 실제로 남는지 — 유입과 리텐션을 연결해야 진짜 성과가 보입니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">광고 매체를 2개 이상 집행하고 있다</div>
+          <div class="item-hint">예: Meta + Google / 카카오 + 네이버 — 멀티 채널 집행 시 채널 간 성과 비교와 어트리뷰션이 중요해집니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">UA 비중에서 오가닉/외부유입의 비중을 알고 있다</div>
+          <div class="item-hint">오가닉 vs. 페이드 비중 파악은 광고 의존도와 자연 성장 건강도를 동시에 진단하는 기준입니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">채널별(Meta/Google/카카오 등) 유저의 D7/D30 리텐션율을 비교한 적 있다</div>
+          <div class="item-hint">CPI가 낮아도 리텐션이 낮으면 손해 — 채널별 리텐션 차이가 예산 배분의 핵심 근거가 됩니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">광고 클릭 → 앱 설치 → 핵심 이벤트까지의 전환 흐름을 단일 대시보드에서 보고 있다</div>
+          <div class="item-hint">마케팅팀과 프로덕트팀이 같은 지표를 보며 소통하고 있는가</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">현재 마케팅 성과 측정에서 가장 답답한 점은 무엇인가요? <span class="q-badge">직접 입력</span></div>
+        <textarea class="q-input" rows="2" placeholder="예: 채널별 리텐션 비교가 안 됨 / iOS 어트리뷰션이 부정확함 / 광고팀과 제품팀이 데이터를 따로 봄…" oninput="updateQ(this)"></textarea>
+      </div>
+    </div>
+
+    <!-- S2: 신규 유저 온보딩 -->
+    <div class="section">
+      <div class="section-hd">
+        <div class="section-icon ic-2">🚀</div>
+        <div class="section-meta">
+          <div class="section-title">신규 유저 온보딩 — 첫 경험이 리텐션을 결정합니다</div>
+          <div class="section-subtitle">신규 유저가 핵심 가치를 얼마나 빠르게 경험하느냐가 D7, D30 리텐션을 결정합니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">신규 유저의 온보딩 퍼널을 단계별로 시각화하고, 각 단계 이탈률을 파악하고 있다</div>
+          <div class="item-hint">가입 → 튜토리얼 → 핵심 기능 첫 사용 → 재방문 — 어느 단계에서 가장 많이 떠나나요?</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">신규 유저가 핵심 이벤트를 첫 경험하기까지 평균 며칠이 걸리는지 측정한 적 있다</div>
+          <div class="item-hint">이 시간이 짧을수록 리텐션이 높아집니다 — "아하 모먼트" 도달 시간을 단축하는 것이 목표</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">신규 유저가 핵심 이벤트를 처음 경험하기까지 평균 며칠인가요? <span class="q-badge">직접 입력</span></div>
+        <input class="q-input" type="text" placeholder="예: 약 3일 / 당일 / 측정 안 함 / 모름…" oninput="updateQ(this)" />
+      </div>
+
+      <div class="item" onclick="toggle(this)" style="margin-top:12px;">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">유입 채널(광고/오가닉/바이럴 등)에 따라 신규유저의 온보딩 완료율이 다른지 비교해본 적 있다</div>
+          <div class="item-hint">같은 광고비라도 어느 채널에서 온 유저가 더 잘 남는지 알면 예산 배분이 달라집니다</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3: 핵심 이벤트 & 제품 사용 주기 -->
+    <div class="section">
+      <div class="section-hd">
+        <div class="section-icon ic-3">🎯</div>
+        <div class="section-meta">
+          <div class="section-title">핵심 이벤트 & 제품 사용 주기</div>
+          <div class="section-subtitle">리텐션 분석의 출발점 — 우리 제품의 '핵심 행동'이 무엇인지 정의부터 시작합니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">유저가 우리 제품에서 반드시 수행했으면 하는 한 가지 핵심 행동(핵심 이벤트)을 정의한 적 있다</div>
+          <div class="item-hint">예: 첫 구매 완료 / 첫 플레이리스트 생성 / 첫 보고서 발행 — 제품이 주는 핵심 가치와 연결된 단 하나의 행동</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">우리 제품의 핵심 이벤트는 무엇인가요? <span class="q-badge">직접 입력</span></div>
+        <input class="q-input" type="text" placeholder="예: 첫 구매 완료 / 첫 영상 재생 / 첫 레포트 생성…" oninput="updateQ(this)" />
+      </div>
+
+      <div class="item" onclick="toggle(this)" style="margin-top:12px;">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">유저가 우리 제품에 자연스럽게 다시 돌아오는 주기(일/주/월)를 파악하고 있다</div>
+          <div class="item-hint">예: 뉴스앱 → 매일 / 배달앱 → 매주 / 세금 서비스 → 연 1회 — 주기에 맞는 리텐션 지표를 써야 합니다</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">우리 유저들의 자연 재방문 주기는? <span class="q-badge">선택</span></div>
+        <div class="q-select">
+          <div class="q-option" onclick="selectOpt(this, 'cycle')">매일</div>
+          <div class="q-option" onclick="selectOpt(this, 'cycle')">매주</div>
+          <div class="q-option" onclick="selectOpt(this, 'cycle')">매월</div>
+          <div class="q-option" onclick="selectOpt(this, 'cycle')">불규칙 / 모르겠다</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4: 행동 페르소나 -->
+    <div class="section">
+      <div class="section-hd">
+        <div class="section-icon ic-4">👤</div>
+        <div class="section-meta">
+          <div class="section-title">행동 페르소나 — 파워유저가 다른 점이 무엇인가요?</div>
+          <div class="section-subtitle">수동 → 핵심 → 파워 페르소나 전환 요인을 찾아 더 많은 유저를 파워유저로 만듭니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">파워유저 / 핵심유저 / 수동유저를 행동 데이터로 구분해서 본 적 있다</div>
+          <div class="item-hint">단순 가입일/금액 기준이 아닌, '얼마나 자주 핵심 이벤트를 수행하는가'로 나누는 것이 핵심</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">파워유저가 다른 유저에 비해 '더 자주 하는 행동'이 무엇인지 알고 있다</div>
+          <div class="item-hint">예: 파워유저는 첫 1주일 내 '팔로우' 기능을 5회 이상 사용 — 이 행동을 신규유저에게 유도하면 됩니다</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">파워유저를 만드는 '결정적 행동'이 있다면 무엇인가요? <span class="q-badge">직접 입력</span></div>
+        <input class="q-input" type="text" placeholder="예: 첫 1주일 내 3개 이상 콘텐츠 저장 / 친구 2명 초대 / 대시보드 커스텀…" oninput="updateQ(this)" />
+      </div>
+    </div>
+
+    <!-- S5: 리텐션 라이프사이클 -->
+    <div class="section">
+      <div class="section-hd">
+        <div class="section-icon ic-5">🔄</div>
+        <div class="section-meta">
+          <div class="section-title">리텐션 라이프사이클 — 유저는 지금 어느 단계에 있나요?</div>
+          <div class="section-subtitle">신규 / 현재 / 복귀 / 휴면 유저 분포로 제품 성장의 건강도를 진단합니다</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">신규 유저 / 현재 유저 / 복귀 유저 / 휴면 유저의 비율을 현재 파악하고 있다</div>
+          <div class="item-hint">신규: 첫 사용 주기 | 현재: 지난 주기도 이번 주기도 활성 | 복귀: 휴면 후 재방문 | 휴면: 이번 주기 비활성</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">액티브 유저 중 '현재 유저(반복 방문자)' 비율이 70% 이상인지 알고 있다</div>
+          <div class="item-hint">현재 유저 비율이 낮으면 신규 유입에만 의존하는 구조 — 리텐션 커브가 계속 내려갑니다</div>
+        </div>
+      </div>
+
+      <div class="q-field">
+        <div class="q-label">현재 우리의 D7 리텐션율은 대략 얼마인가요? <span class="q-badge">직접 입력</span></div>
+        <input class="q-input" type="text" placeholder="예: 약 20% / 정확히 모름 / 측정 안 하고 있음…" oninput="updateQ(this)" />
+      </div>
+
+      <div class="item" onclick="toggle(this)" style="margin-top:12px;">
+        <div class="cb"><span class="cb-mark">✓</span></div>
+        <div class="item-body">
+          <div class="item-text">(신규 + 복귀 유저) > 휴면 유저 — 즉 잃는 유저보다 얻는 유저가 더 많다</div>
+          <div class="item-hint">Pulse Ratio = (신규+복귀) / 휴면 > 1 이면 진정한 성장, < 1 이면 역성장 중</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /card -->
+
+  <!-- CTA -->
+  <div class="cta-card">
+    <div class="cta-inner">
+      <div class="cta-eyebrow">다음 단계</div>
+      <div class="cta-title">이제 우리 서비스에 맞게<br>전략을 설계해볼 시간입니다</div>
+      <div class="cta-desc">
+        오늘 체크한 내용과 직접 입력한 답변을 가지고 미팅을 신청해주세요.<br>
+        범용 프레임워크가 아닌, <strong>우리 제품의 핵심 이벤트 · 사용 주기 · 유저 구조에 딱 맞는</strong><br>
+        리텐션 전략을 함께 설계해드립니다.
+      </div>
+      <button class="cta-btn" onclick="openMeeting()">
+        📅 맞춤형 전략 미팅 신청하기
+      </button>
+      <div class="cta-hint" id="ctaHint">
+        지금까지 <span id="ctaDone">0</span>개 항목에 답하셨습니다 — 더 많이 채울수록 미팅이 더 효율적입니다
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    AB180 for Startups · 2026.03.13<br>
+    본 체크리스트는 AB180 리텐션 마스터하기 플레이북을 기반으로 제작되었습니다.
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  const TOTAL = 16;
+
+  function toggle(el) {
+    el.classList.toggle('checked');
+    update();
+  }
+
+  function selectOpt(el, group) {
+    el.closest('.q-select').querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+
+    // 기타 입력 표시/숨김
+    const otherBox = document.getElementById('platformOther');
+    if (otherBox) {
+      if (el.dataset.other === 'true') {
+        otherBox.classList.add('visible');
+      } else {
+        otherBox.classList.remove('visible');
+      }
+    }
+    update();
+  }
+
+  function updateQ(el) { update(); }
+
+  function update() {
+    const checked = document.querySelectorAll('.item.checked').length;
+    const pct = Math.round((checked / TOTAL) * 100);
+    document.getElementById('pFill').style.width = pct + '%';
+    document.getElementById('pCount').textContent = checked + ' / ' + TOTAL;
+    document.getElementById('ctaDone').textContent = checked;
+  }
+
+  function openMeeting() {
+    window.open('https://calendar.app.google/8eDQLS3eDkCdUPrq6', '_blank');
+  }
+</script>
+</body>
+</html>
