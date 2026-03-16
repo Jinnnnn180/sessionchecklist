@@ -438,6 +438,43 @@
       color: var(--gray-400);
     }
 
+    .footer-copyright {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--gray-400);
+      line-height: 1.7;
+    }
+
+    /* ── Watermark ── */
+    .watermark {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(26, 26, 46, 0.82);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      padding: 6px 14px 6px 10px;
+      border-radius: 99px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12);
+      pointer-events: none;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .watermark-dot {
+      width: 6px;
+      height: 6px;
+      background: #818CF8;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     /* ── Responsive ── */
     @media (max-width: 600px) {
       .hero, .section, .cta-card { padding-left: 20px; padding-right: 20px; }
@@ -756,9 +793,19 @@
   <div class="footer">
     AB180 for Startups · 2026.03.13<br>
     본 체크리스트는 AB180 리텐션 마스터하기 플레이북을 기반으로 제작되었습니다.
+    <div class="footer-copyright">
+      © 2026 AB180 Inc. All rights reserved.<br>
+      본 자료는 AB180의 소유 제작물로, 무단 배포·수정·활용을 금합니다.
+    </div>
   </div>
 
 </div><!-- /page -->
+
+<!-- Watermark -->
+<div class="watermark">
+  <div class="watermark-dot"></div>
+  AB180 © 2026
+</div>
 
 <script>
   const TOTAL = 16;
